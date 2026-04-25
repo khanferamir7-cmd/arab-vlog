@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <base target="_self">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arab Vlog - مقالات سياسية واقتصادية جزائرية</title>
+    <meta name="description" content="مدونة Arab Vlog تهتم بالشؤون السياسية والإقتصادية للجزائر، تحليلات وأخبار ومقالات متخصصة">
+    <meta name="keywords" content="الجزائر, سياسة, اقتصاد, تحليلات, أخبار, مقالات, Arab Vlog">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#1e3a8a",
+                        secondary: "#0ea5e9",
+                        accent: "#dc2626",
+                        dark: "#1e293b",
+                        light: "#f8fafc"
+                    },
+                    fontFamily: {
+                        'cairo': ['Cairo', 'sans-serif']
+                    },
+                    spacing: {
+                        '18': '4.5rem',
+                        '88': '22rem'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+        }
+        .article-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .category-badge {
+            transition: all 0.2s ease;
+        }
+        .category-badge:hover {
+            transform: scale(1.05);
+        }
+        .read-more-btn:hover i {
+            transform: translateX(-4px);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 font-cairo text-gray-800">
+    <!-- Header & Navigation -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center py-4">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3 space-x-reverse mb-4 md:mb-0">
+                    <div class="w-12 h-12 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center">
+                        <i class="fas fa-newspaper text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-dark">Arab Vlog</h1>
+                        <p class="text-sm text-gray-600">الشؤون السياسية والإقتصادية للجزائر</p>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="w-full md:w-auto">
+                    <ul id="nav-menu" class="flex flex-wrap justify-center md:justify-end gap-4 md:gap-6"></ul>
+                </nav>
+
+                <!-- Social Media -->
+                <div class="mt-4 md:mt-0">
+                    <div class="flex items-center space-x-4 space-x-reverse">
+                        <span class="text-sm text-gray-600 hidden md:block">تابعنا على:</span>
+                        <div id="social-links" class="flex gap-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-primary to-secondary text-white py-12 md:py-16">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">مرحباً بكم في Arab Vlog</h2>
+                <p class="text-lg md:text-xl mb-6 opacity-90">منصة متخصصة في تحليل الشؤون السياسية والإقتصادية الجزائرية، نقدم رؤى عميقة وتحليلات موضوعية لأهم القضايا</p>
+                <div class="flex flex-wrap justify-center gap-3">
+                    <button id="latest-articles-btn" class="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition duration-300">
+                        <i class="fas fa-book-open ml-2"></i> اقرأ أحدث المقالات
+                    </button>
+                    <button id="subscribe-btn" class="bg-accent text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition duration-300">
+                        <i class="fas fa-bell ml-2"></i> اشترك في النشرة
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Articles Section -->
+            <div class="lg:w-2/3">
+                <!-- Section Header -->
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-2xl md:text-3xl font-bold text-dark">أحدث المقالات</h2>
+                    <div class="flex items-center space-x-2 space-x-reverse">
+                        <span class="text-gray-600">ترتيب حسب:</span>
+                        <select id="sort-articles" class="bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                            <option value="newest">الأحدث</option>
+                            <option value="popular">الأكثر قراءة</option>
+                            <option value="oldest">الأقدم</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Articles Grid -->
+                <div id="articles-container" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12"></div>
+
+                <!-- Categories Section -->
+                <div class="mb-12">
+                    <h3 class="text-xl font-bold text-dark mb-6">تصفح حسب التصنيف</h3>
+                    <div id="categories-container" class="flex flex-wrap gap-3"></div>
+                </div>
+
+                <!-- Featured Articles -->
+                <div class="mb-12">
+                    <h3 class="text-xl font-bold text-dark mb-6">مقالات مميزة</h3>
+                    <div id="featured-articles-container" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="lg:w-1/3">
+                <!-- About Widget -->
+                <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                    <h3 class="text-xl font-bold text-dark mb-4">عن Arab Vlog</h3>
+                    <p class="text-gray-700 mb-4">نحن منصة إعلامية مستقلة تهتم بالشؤون السياسية والإقتصادية للجزائر. نقدم تحليلات عميقة وأبحاث موضوعية لتسليط الضوء على أهم القضايا التي تهم المواطن الجزائري.</p>
+                    <div class="flex items-center text-secondary">
+                        <i class="fas fa-check-circle ml-2"></i>
+                        <span>تحليلات سياسية متعمقة</span>
+                    </div>
+                    <div class="flex items-center text-secondary mt-2">
+                        <i class="fas fa-check-circle ml-2"></i>
+                        <span>تقارير اقتصادية شاملة</span>
+                    </div>
+                    <div class="flex items-center text-secondary mt-2">
+                        <i class="fas fa-check-circle ml-2"></i>
+                        <span>متابعة حصرية للأحداث</span>
+                    </div>
+                </div>
+
+                <!-- Newsletter Subscription -->
+                <div class="bg-gradient-to-br from-primary to-secondary text-white rounded-xl shadow-lg p-6 mb-8">
+                    <h3 class="text-xl font-bold mb-4">النشرة الإخبارية</h3>
+                    <p class="mb-4 opacity-90">اشترك في نشرتنا ليصلك أحدث المقالات والتحليلات مباشرة إلى بريدك</p>
+                    <form id="newsletter-form" class="space-y-4">
+                        <input type="email" placeholder="بريدك الإلكتروني" required class="w-full px-4 py-3 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-white">
+                        <button type="submit" class="w-full bg-accent text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition duration-300">
+                            <i class="fas fa-paper-plane ml-2"></i> اشترك الآن
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Facebook Page Widget -->
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-dark mb-4">صفحتنا على فيسبوك</h3>
+                    <div class="border-2 border-gray-200 rounded-lg p-4 text-center">
+                        <i class="fab fa-facebook text-primary text-4xl mb-3"></i>
+                        <p class="text-gray-700 mb-3">تابع آخر تحديثاتنا على صفحة Arab Vlog على فيسبوك</p>
+                        <a href="https://facebook.com" target="_blank" class="inline-block bg-primary text-white px-6 py-2 rounded-lg hover:bg-blue-800 transition duration-300">
+                            <i class="fab fa-facebook-f ml-2"></i> زيارة الصفحة
+                        </a>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-12 pb-6">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <!-- Footer Column 1 -->
+                <div>
+                    <h4 class="text-xl font-bold mb-4">Arab Vlog</h4>
+                    <p class="text-gray-300 mb-4">منصة إعلامية متخصصة في الشؤون السياسية والإقتصادية الجزائرية، نقدم محتوى تحليلي موضوعي ومهني.</p>
+                    <div id="footer-social" class="flex gap-3"></div>
+                </div>
+
+                <!-- Footer Column 2 -->
+                <div>
+                    <h4 class="text-xl font-bold mb-4">روابط سريعة</h4>
+                    <ul id="footer-links-1" class="space-y-2"></ul>
+                </div>
+
+                <!-- Footer Column 3 -->
+                <div>
+                    <h4 class="text-xl font-bold mb-4">التصنيفات</h4>
+                    <ul id="footer-links-2" class="space-y-2"></ul>
+                </div>
+
+                <!-- Footer Column 4 -->
+                <div>
+                    <h4 class="text-xl font-bold mb-4">اتصل بنا</h4>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope mt-1 ml-2 text-secondary"></i>
+                            <span>contact@arabvlog.dz</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone mt-1 ml-2 text-secondary"></i>
+                            <span>+213 XXX XXX XXX</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 ml-2 text-secondary"></i>
+                            <span>الجزائر العاصمة، الجزائر</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t border-gray-700 pt-6 text-center text-gray-400">
+                <p>© 2024 Arab Vlog. جميع الحقوق محفوظة. | تم التصميم بعناية لتقديم أفضل تجربة قراءة</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ==================== DATA LAYER ====================
+        const navigationData = [
+            { "label": "الرئيسية", "href": "#home", "icon": "fas fa-home" },
+            { "label": "السياسية", "href": "#politics", "icon": "fas fa-landmark" },
+            { "label": "الإقتصادية", "href": "#economy", "icon": "fas fa-chart-line" },
+            { "label": "التحليلات", "href": "#analysis", "icon": "fas fa-chart-pie" },
+            { "label": "مقالات الرأي", "href": "#opinion", "icon": "fas fa-edit" },
+            { "label": "اتصل بنا", "href": "#contact", "icon": "fas fa-envelope" }
+        ];
+
+        const socialMediaData = [
+            { "platform": "facebook", "url": "https://facebook.com", "icon": "fab fa-facebook-f", "color": "hover:bg-blue-600" },
+            { "platform": "twitter", "url": "https://twitter.com", "icon": "fab fa-twitter", "color": "hover:bg-blue-400" },
+            { "platform": "youtube", "url": "https://youtube.com", "icon": "fab fa-youtube", "color": "hover:bg-red-600" },
+            { "platform": "instagram", "url": "https://instagram.com", "icon": "fab fa-instagram", "color": "hover:bg-pink-600" }
+        ];
+
+        const articlesData = [
+            {
+                "id": 1,
+                "title": "تحليل: مستقبل الاقتصاد الجزائري في ظل التحديات العالمية",
+                "excerpt": "نظرة متعمقة على التحديات الاقتصادية التي تواجه الجزائر في السنوات القادمة وآليات المواجهة الممكنة في ظل المتغيرات الدولية.",
+                "category": "اقتصاد",
+                "date": "15 مارس 2024",
+                "readTime": "8 دقائق",
+                "views": 1245,
+                "image": "https://picsum.photos/600/400?random=1",
+                "alt": "الاقتصاد الجزائري والتحديات العالمية",
+                "featured": true
+            },
+            {
+                "id": 2,
+                "title": "السياسة الخارجية الجزائرية: بين الثوابت والمتغيرات",
+                "excerpt": "كيف تحافظ الجزائر على ثوابت سياستها الخارجية مع التكيف مع المتغيرات الإقليمية والدولية المتسارعة؟",
+                "category": "سياسة",
+                "date": "12 مارس 2024",
+                "readTime": "10 دقائق",
+                "views": 1876,
+                "image": "https://picsum.photos/600/400?random=2",
+                "alt": "السياسة الخارجية الجزائرية",
+                "featured": true
+            },
+            {
+                "id": 3,
+                "title": "قطاع الطاقة: رهانات التحول والاستدامة",
+                "excerpt": "تحليل لاستراتيجية الجزائر في قطاع الطاقة والتحول نحو مصادر متجددة في ظل التوجه العالمي للطاقة النظيفة.",
+                "category": "اقتصاد",
+                "date": "10 مارس 2024",
+                "readTime": "12 دقائق",
+                "views": 932,
+                "image": "https://picsum.photos/600/400?random=3",
+                "alt": "قطاع الطاقة في الجزائر",
+                "featured": false
+            },
+            {
+                "id": 4,
+                "title": "الإصلاح السياسي: قراءة في المشهد الحالي",
+                "excerpt": "تقييم مسار الإصلاحات السياسية في الجزائر والتحديات التي تواجه عملية التحول الديمقراطي.",
+                "category": "سياسة",
+                "date": "8 مارس 2024",
+                "readTime": "9 دقائق",
+                "views": 1543,
+                "image": "https://picsum.photos/600/400?random=4",
+                "alt": "الإصلاح السياسي في الجزائر",
+                "featured": false
+            },
+            {
+                "id": 5,
+                "title": "الاستثمار الأجنبي: فرص وتحديات في السوق الجزائرية",
+                "excerpt": "تحليل لبيئة الاستثمار في الجزائر والعوامل الجاذبة والمعيقة لتدفق رؤوس الأموال الأجنبية.",
+                "category": "اقتصاد",
+                "date": "5 مارس 2024",
+                "readTime": "11 دقائق",
+                "views": 876,
+                "image": "https://picsum.photos/600/400?random=5",
+                "alt": "الاستثمار الأجنبي في الجزائر",
+                "featured": true
+            },
+            {
+                "id": 6,
+                "title": "الأمن الإقليمي: دور الجزائر في استقرار المنطقة",
+                "excerpt": "دور الجزائر الإقليمي في تعزيز الأمن والاستقرار في منطقة الساحل والصحراء والتحديات الأمنية الراهنة.",
+                "category": "سياسة",
+                "date": "3 مارس 2024",
+                "readTime": "14 دقائق",
+                "views": 2107,
+                "image": "https://picsum.photos/600/400?random=6",
+                "alt": "الأمن الإقليمي ودور الجزائر",
+                "featured": false
+            }
+        ];
+
+        const categoriesData = [
+            { "name": "السياسية", "count": 24, "color": "bg-blue-100 text-blue-800" },
+            { "name": "الإقتصادية", "count": 18, "color": "bg-green-100 text-green-800" },
+            { "name": "التحليلات", "count": 15, "color": "bg-purple-100 text-purple-800" },
+            { "name": "مقالات الرأي", "count": 12, "color": "bg-yellow-100 text-yellow-800" },
+            { "name": "العلاقات الدولية", "count": 9, "color": "bg-red-100 text-red-800" },
+            { "name": "التنمية", "count": 7, "color": "bg-indigo-100 text-indigo-800" }
+        ];
+
+        const footerLinks1 = [
+            { "label": "عن الموقع", "href": "#about" },
+            { "label": "اتصل بنا", "href": "#contact" },
+            { "label": "سياسة الخصوصية", "href": "#privacy" },
+            { "label": "شروط الاستخدام", "href": "#terms" }
+        ];
+
+        const footerLinks2 = [
+            { "label": "السياسية", "href": "#politics" },
+            { "label": "الإقتصادية", "href": "#economy" },
+            { "label": "التحليلات", "href": "#analysis" },
+            { "label": "مقالات الرأي", "href": "#opinion" }
+        ];
+
+        // ==================== RENDER FUNCTIONS ====================
+        function renderNavigation(items) {
+            return items.map(item => `
+                <li>
+                    <a href="${item.href}" class="flex items-center text-gray-700 hover:text-primary font-medium transition duration-300">
+                        <i class="${item.icon} ml-2"></i>
+                        ${item.label}
+                    </a>
+                </li>
+            `).join("");
+        }
+
+        function renderSocialLinks(items) {
+            return items.map(item => `
+                <a href="${item.url}" target="_blank" class="w-10 h-10 rounded-full bg-gray-100 text-gray-700 flex items-center justify-center ${item.color} transition duration-300 hover:text-white">
+                    <i class="${item.icon}"></i>
+                </a>
+            `).join("");
+        }
+
+        function renderArticles(articles) {
+            return articles.map(article => `
+                <article class="article-card bg-white rounded-xl shadow-lg overflow-hidden transition duration-300">
+                    <div class="relative">
+                        <img src="${article.image}" alt="${article.alt}" class="w-full h-48 object-cover" loading="lazy">
+                        <div class="absolute top-4 right-4">
+                            <span class="${article.category === 'اقتصاد' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'} px-3 py-1 rounded-full text-sm font-semibold">
+                                ${article.category}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-3 text-sm text-gray-500">
+                            <span><i class="far fa-calendar ml-1"></i> ${article.date}</span>
+                            <span><i class="far fa-eye ml-1"></i> ${article.views} مشاهدة</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-dark mb-3 hover:text-primary transition duration-300 cursor-pointer">
+                            ${article.title}
+                        </h3>
+                        <p class="text-gray-600 mb-4">${article.excerpt}</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-500 text-sm"><i class="far fa-clock ml-1"></i> ${article.readTime} قراءة</span>
+                            <button class="read-more-btn text-primary font-semibold hover:text-secondary transition duration-300">
+                                اقرأ المزيد <i class="fas fa-arrow-left mr-2 transition duration-300"></i>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            `).join("");
+        }
+
+        function renderCategories(categories) {
+            return categories.map(category => `
+                <button class="category-badge ${category.color} px-4 py-2 rounded-full font-medium hover:shadow-md transition duration-300">
+                    ${category.name} <span class="bg-white bg-opacity-50 rounded-full px-2 py-1 text-xs mr-2">${category.count}</span>
+                </button>
+            `).join("");
+        }
+
+        function renderFeaturedArticles(articles) {
+            const featured = articles.filter(article => article.featured);
+            return featured.map(article => `
+                <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                    <img src="${article.image}" alt="${article.alt}" class="w-full h-40 object-cover" loading="lazy">
+                    <div class="p-4">
+                        <span class="text-xs font-semibold ${article.category === 'اقتصاد' ? 'text-green-600' : 'text-blue-600'}">${article.category}</span>
+                        <h4 class="font-bold text-dark mt-2 hover:text-primary transition duration-300 cursor-pointer">${article.title}</h4>
+                        <div class="flex justify-between items-center mt-3 text-sm text-gray-500">
+                            <span>${article.date}</span>
+                            <button class="text-primary text-sm hover:text-secondary">
+                                <i class="fas fa-arrow-left ml-1"></i> اقرأ
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        function renderFooterLinks(items) {
+            return items.map(item => `
+                <li>
+                    <a href="${item.href}" class="text-gray-300 hover:text-white transition duration-300 hover:pr-2">
+                        <i class="fas fa-chevron-left ml-2 text-sm"></i> ${item.label}
+                    </a>
+                </li>
+            `).join("");
+        }
+
+        // ==================== INITIALIZATION ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Render navigation
+            document.getElementById('nav-menu').innerHTML = renderNavigation(navigationData);
+            
+            // Render social links
+            document.getElementById('social-links').innerHTML = renderSocialLinks(socialMediaData);
+            document.getElementById('footer-social').innerHTML = renderSocialLinks(socialMediaData);
+            
+            // Render articles
+            document.getElementById('articles-container').innerHTML = renderArticles(articlesData);
+            
+            // Render categories
+            document.getElementById('categories-container').innerHTML = renderCategories(categoriesData);
+            
+            // Render featured articles
+            document.getElementById('featured-articles-container').innerHTML = renderFeaturedArticles(articlesData);
+            
+            // Render footer links
+            document.getElementById('footer-links-1').innerHTML = renderFooterLinks(footerLinks1);
+            document.getElementById('footer-links-2').innerHTML = renderFooterLinks(footerLinks2);
+
+            // ==================== EVENT HANDLERS ====================
+            // Article sorting
+            document.getElementById('sort-articles').addEventListener('change', function(e) {
+                let sortedArticles = [...articlesData];
+                
+                switch(e.target.value) {
+                    case 'newest':
+                        sortedArticles.sort((a, b) => b.id - a.id);
+                        break;
+                    case 'oldest':
+                        sortedArticles.sort((a, b) => a.id - b.id);
+                        break;
+                    case 'popular':
+                        sortedArticles.sort((a, b) => b.views - a.views);
+                        break;
+                }
+                
+                document.getElementById('articles-container').innerHTML = renderArticles(sortedArticles);
+                bindArticleEvents();
+            });
+
+            // Newsletter form
+            document.getElementById('newsletter-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = this.querySelector('input[type="email"]').value;
+                
+                if (email) {
+                    alert(`شكراً لك! تم تسجيل بريدك ${email} في النشرة الإخبارية.`);
+                    this.reset();
+                }
+            });
+
+            // Subscribe button
+            document.getElementById('subscribe-btn').addEventListener('click', function() {
+                document.querySelector('input[type="email"]').focus();
+            });
+
+            // Latest articles button
+            document.getElementById('latest-articles-btn').addEventListener('click', function() {
+                document.getElementById('articles-container').scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+
+            // Category buttons
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.category-badge')) {
+                    const categoryName = e.target.closest('.category-badge').textContent.trim().split(' ')[0];
+                    const filteredArticles = articlesData.filter(article => 
+                        article.category.includes(categoryName)
+                    );
+                    
+                    document.getElementById('articles-container').innerHTML = renderArticles(filteredArticles);
+                    document.getElementById('articles-container').scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    bindArticleEvents();
+                }
+            });
+
+            // Read more buttons (event delegation)
+            function bindArticleEvents() {
+                document.addEventListener('click', function(e) {
+                    const readMoreBtn = e.target.closest('.read-more-btn');
+                    const articleTitle = e.target.closest('h3');
+                    
+                    if (readMoreBtn || articleTitle) {
+                        const articleCard = (readMoreBtn || articleTitle).closest('.article-card');
+                        const title = articleCard.querySelector('h3').textContent;
+                        alert(`فتح مقال: "${title}"\n\nفي التطبيق الكامل، سيتم توجيهك إلى صفحة المقال الكاملة.`);
+                    }
+                });
+            }
+
+            // Initialize article events
+            bindArticleEvents();
+
+            // Smooth scrolling for navigation links
+            document.addEventListener('click', function(e) {
+                const link = e.target.closest('a[href^="#"]');
+                if (link && link.getAttribute('href') !== '#') {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    if (targetId === '#home') {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
